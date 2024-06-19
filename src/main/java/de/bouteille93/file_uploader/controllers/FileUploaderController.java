@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import de.bouteille93.file_uploader.interfaces.StorageInterface;
+import de.bouteille93.file_uploader.models.ApiError;
 import de.bouteille93.file_uploader.models.FileData;
 import de.bouteille93.file_uploader.models.FileInfo;
 import de.bouteille93.file_uploader.services.LocalStorageService;
@@ -22,7 +23,7 @@ public class FileUploaderController {
     StorageInterface storage;
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
 
         storage = new LocalStorageService();
 
@@ -38,8 +39,12 @@ public class FileUploaderController {
                         ""),
                 file.getBytes());
 
-        // save file to storage
-        // storage.upload(fileToUpload);
+        try {
+            storage.upload(fileToUpload);
+        } catch (Exception e) {
+            ApiError apiError = new ApiError("Erreur lors de l'enregistrement du fichier");
+            return ResponseEntity.badRequest().body(apiError);
+        }
 
         System.out.println(file);
 
