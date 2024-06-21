@@ -2,6 +2,9 @@ package de.bouteille93.file_uploader.models;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Entity;
+
+@Entity
 public class FileInfo {
     private String id;
     private String name;
