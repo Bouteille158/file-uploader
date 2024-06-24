@@ -3,9 +3,11 @@ package de.bouteille93.file_uploader.models;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 @Entity
 public class FileInfo {
+    @Id
     private String id;
     private String name;
     private long size;
