@@ -15,6 +15,9 @@ public class FileInfo {
     private LocalDateTime uploadDate;
     private String url;
 
+    public FileInfo() {
+    }
+
     public FileInfo(String id, String name, long size, String type, LocalDateTime uploadDate, String url) {
         this.id = id;
         this.name = name;
