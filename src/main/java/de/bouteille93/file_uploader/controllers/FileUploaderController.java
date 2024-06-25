@@ -20,12 +20,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RestController
 public class FileUploaderController {
 
-    StorageInterface storage;
+    private final StorageInterface storage;
+
+    public FileUploaderController(StorageInterface storage) {
+        this.storage = storage;
+    }
 
     @PostMapping("/upload")
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
-
-        storage = new LocalStorageService();
 
         String uid = UUID.randomUUID().toString();
 
@@ -42,6 +44,7 @@ public class FileUploaderController {
         try {
             storage.upload(fileToUpload);
         } catch (Exception e) {
+            System.err.println(e);
             ApiError apiError = new ApiError("Erreur lors de l'enregistrement du fichier");
             return ResponseEntity.badRequest().body(apiError);
         }
