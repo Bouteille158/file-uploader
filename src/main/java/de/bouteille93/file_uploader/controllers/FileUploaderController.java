@@ -4,10 +4,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import de.bouteille93.file_uploader.interfaces.StorageInterface;
+import de.bouteille93.file_uploader.interfaces.StorageServiceSelector;
 import de.bouteille93.file_uploader.models.ApiError;
 import de.bouteille93.file_uploader.models.FileData;
 import de.bouteille93.file_uploader.models.FileInfo;
-import de.bouteille93.file_uploader.services.LocalStorageService;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -20,16 +20,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RestController
 public class FileUploaderController {
 
-    private final StorageInterface storage;
+    private final StorageServiceSelector storageServiceSelector;
 
-    public FileUploaderController(StorageInterface storage) {
-        this.storage = storage;
+    public FileUploaderController(StorageServiceSelector storageServiceSelector) {
+        this.storageServiceSelector = storageServiceSelector;
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<?> uploadFile(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("storageType") String storageType) throws IOException {
 
         String uid = UUID.randomUUID().toString();
+
+        StorageInterface storage = storageServiceSelector.selectStorage(storageType);
 
         FileData fileToUpload = new FileData(
                 new FileInfo(
