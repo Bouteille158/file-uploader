@@ -11,12 +11,11 @@ import org.springframework.stereotype.Service;
 import de.bouteille93.file_uploader.interfaces.StorageInterface;
 import de.bouteille93.file_uploader.models.FileData;
 import de.bouteille93.file_uploader.models.FileInfo;
-import de.bouteille93.file_uploader.repositories.FileInfoRepository;
 
 @Service
 public class LocalStorageService implements StorageInterface {
     @Autowired
-    private FileInfoRepository fileInfoRepository;
+    private FileRegistrationServiceImpl fileRegistrationServiceImpl;
 
     @Override
     public String upload(FileData file) {
@@ -25,9 +24,7 @@ public class LocalStorageService implements StorageInterface {
         file.getFileInfo().setUrl("uploads/" + file.getFileInfo().getId());
 
         FileInfo fileInfo = file.getFileInfo();
-        fileInfoRepository.save(fileInfo);
-
-        System.out.println("Upload is called");
+        fileRegistrationServiceImpl.saveFileToDatabase(fileInfo);
 
         try {
             // Définir le chemin où le fichier sera enregistré
