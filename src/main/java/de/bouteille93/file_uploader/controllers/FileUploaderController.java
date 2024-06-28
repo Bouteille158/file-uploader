@@ -8,17 +8,26 @@ import de.bouteille93.file_uploader.interfaces.StorageServiceSelector;
 import de.bouteille93.file_uploader.models.ApiError;
 import de.bouteille93.file_uploader.models.FileData;
 import de.bouteille93.file_uploader.models.FileInfo;
+import de.bouteille93.file_uploader.services.FileRegistrationServiceImpl;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 public class FileUploaderController {
+
+    private static final Logger logger = LoggerFactory.getLogger(FileUploaderController.class);
 
     private final StorageServiceSelector storageServiceSelector;
 
@@ -51,6 +60,7 @@ public class FileUploaderController {
             System.err.println(e);
             ApiError apiError = new ApiError("Erreur lors de l'enregistrement du fichier");
             return ResponseEntity.badRequest().body(apiError);
+            // TODO remove bad request, use exception handler
         }
 
         System.out.println(file);
@@ -59,4 +69,20 @@ public class FileUploaderController {
 
         return ResponseEntity.ok("Fichier reçu : " + file.getOriginalFilename());
     }
+
+    @Autowired
+    private FileRegistrationServiceImpl fileRegistrationServiceImpl;
+
+    @GetMapping("/getAllFiles")
+    public ResponseEntity<List<FileInfo>> getAllFiles() {
+        List<FileInfo> fileList = new ArrayList<>();
+        try {
+            fileList = fileRegistrationServiceImpl.getFileListFromDatabase();
+            return ResponseEntity.ok(fileList);
+        } catch (Exception e) {
+            logger.error("Erreur lors de la récupération des info des fichiers : " + e.getMessage(), e);
+            throw e;
+        }
+    }
+
 }
