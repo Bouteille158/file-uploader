@@ -1,5 +1,8 @@
 package de.bouteille93.file_uploader.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,9 +22,15 @@ public class FileRegistrationServiceImpl implements FileRegistrationService {
     }
 
     @Override
-    public FileInfo[] getFileListFromDatabase() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getFileListFromDatabase'");
+    public List<FileInfo> getFileListFromDatabase() {
+        List<FileInfo> fileList = new ArrayList<>();
+        try {
+            fileList = fileInfoRepository.findAll();
+        } catch (Exception e) {
+            System.err.println("Erreur lors de la récupération des info des fichiers : " + e.getMessage());
+            throw e;
+        }
+        return fileList;
     }
 
     @Override
