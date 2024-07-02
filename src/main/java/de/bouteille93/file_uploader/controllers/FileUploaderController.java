@@ -5,7 +5,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import de.bouteille93.file_uploader.interfaces.StorageInterface;
 import de.bouteille93.file_uploader.interfaces.StorageServiceSelector;
-import de.bouteille93.file_uploader.models.ApiError;
 import de.bouteille93.file_uploader.models.FileData;
 import de.bouteille93.file_uploader.models.FileInfo;
 import de.bouteille93.file_uploader.services.FileRegistrationServiceImpl;
@@ -57,10 +56,8 @@ public class FileUploaderController {
         try {
             storage.upload(fileToUpload);
         } catch (Exception e) {
-            System.err.println(e);
-            ApiError apiError = new ApiError("Erreur lors de l'enregistrement du fichier");
-            return ResponseEntity.badRequest().body(apiError);
-            // TODO remove bad request, use exception handler
+            logger.error(e.getMessage());
+            throw e;
         }
 
         System.out.println(file);
