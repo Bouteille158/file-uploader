@@ -39,6 +39,7 @@ public class FileUploaderController {
             @RequestParam("file") MultipartFile file,
             @RequestParam("storageType") String storageType) throws IOException {
 
+        // TODO check for multiple files in param
         String uid = UUID.randomUUID().toString();
 
         StorageInterface storage = storageServiceSelector.selectStorage(storageType);

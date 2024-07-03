@@ -24,7 +24,12 @@ public class LocalStorageService implements StorageInterface {
         file.getFileInfo().setUrl("uploads/" + file.getFileInfo().getId());
 
         FileInfo fileInfo = file.getFileInfo();
-        fileRegistrationServiceImpl.saveFileToDatabase(fileInfo);
+        try {
+            fileRegistrationServiceImpl.saveFileToDatabase(fileInfo);
+        } catch (Exception e) {
+            System.err.println("Erreur lors de la sauvegarde du fichier dans la BDD");
+            throw e;
+        }
 
         try {
             // Définir le chemin où le fichier sera enregistré
