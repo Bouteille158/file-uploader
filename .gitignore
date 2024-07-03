@@ -35,3 +35,4 @@ build/
 application.properties
 .DS_Store
 uploads
+logs
