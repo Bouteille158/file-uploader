@@ -2,6 +2,7 @@ package de.bouteille93.file_uploader.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +45,12 @@ public class FileRegistrationServiceImpl implements FileRegistrationService {
 
     @Override
     public FileInfo getFileInfoFromDatabase(String id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getFileInfoFromDatabase'");
+        try {
+            return fileInfoRepository.findById(id)
+                    .orElseThrow(() -> new NoSuchElementException("Fichier non trouvé avec l'ID : " + id));
+        } catch (Exception e) {
+            logger.error("Erreur lors de la récupération des informations du fichier : " + e.getMessage());
+            throw e;
+        }
     }
 }
