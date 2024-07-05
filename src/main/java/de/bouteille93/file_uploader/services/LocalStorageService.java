@@ -23,6 +23,8 @@ public class LocalStorageService implements StorageInterface {
         // TODO Generate download link
         file.getFileInfo().setUrl("uploads/" + file.getFileInfo().getId());
 
+        file.getFileInfo().setStorageType("local");
+
         FileInfo fileInfo = file.getFileInfo();
         try {
             fileRegistrationServiceImpl.saveFileToDatabase(fileInfo);
