@@ -10,6 +10,9 @@ import de.bouteille93.file_uploader.models.FileInfo;
 import de.bouteille93.file_uploader.services.FileRegistrationServiceImpl;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,10 +21,13 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 public class FileUploaderController {
@@ -40,6 +46,7 @@ public class FileUploaderController {
             @RequestParam("storageType") String storageType) throws IOException {
 
         // TODO check for multiple files in param
+        // TODO maximum upload size
         String uid = UUID.randomUUID().toString();
 
         StorageInterface storage = storageServiceSelector.selectStorage(storageType);
@@ -81,6 +88,31 @@ public class FileUploaderController {
             logger.error("Erreur lors de la récupération des info des fichiers : " + e.getMessage(), e);
             throw e;
         }
+    }
+
+    @GetMapping("/download/{fileId:.+}")
+    public ResponseEntity<?> downloadFile(@PathVariable String fileId) {
+
+        // TODO use download method from Storage service
+
+        logger.info("Downloading file : " + fileId);
+
+        FileInfo fileInfo = fileRegistrationServiceImpl.getFileInfoFromDatabase(fileId);
+
+        logger.info("File found : " + fileInfo);
+
+        Path filePath = Paths.get(fileInfo.getUrl());
+        try {
+            byte[] fileContent = Files.readAllBytes(filePath);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileInfo.getName() + "\"")
+                    .body(fileContent);
+        } catch (IOException e) {
+            logger.error("Erreur lors de la lecture du fichier : " + e.getMessage(), e);
+            return ResponseEntity.internalServerError().body("Erreur lors du téléchargement du fichier : " + fileId);
+        }
+
     }
 
 }
