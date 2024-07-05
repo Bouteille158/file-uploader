@@ -55,7 +55,7 @@ public class LocalStorageService implements StorageInterface {
     }
 
     @Override
-    public FileData download(String attachment_id) {
+    public FileData download(FileInfo fileInfo) {
         // TODO Generate download link
 
         return null;

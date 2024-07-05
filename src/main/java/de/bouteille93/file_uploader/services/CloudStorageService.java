@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import de.bouteille93.file_uploader.interfaces.StorageInterface;
 import de.bouteille93.file_uploader.models.FileData;
+import de.bouteille93.file_uploader.models.FileInfo;
 
 @Service
 public class CloudStorageService implements StorageInterface {
@@ -17,7 +18,7 @@ public class CloudStorageService implements StorageInterface {
     }
 
     @Override
-    public FileData download(String attachment_id) {
+    public FileData download(FileInfo fileInfo) {
         System.out.println("Download using cloud storage");
         // TODO Generate download link
 

@@ -1,9 +1,10 @@
 package de.bouteille93.file_uploader.interfaces;
 
 import de.bouteille93.file_uploader.models.FileData;
+import de.bouteille93.file_uploader.models.FileInfo;
 
 public interface StorageInterface {
     public String upload(FileData file);
 
-    public FileData download(String attachment_id);
+    public FileData download(FileInfo fileInfo);
 }
