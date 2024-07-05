@@ -13,17 +13,21 @@ public class FileInfo {
     private long size;
     private String type;
     private LocalDateTime uploadDate;
+    private String storageType;
     private String url;
 
     public FileInfo() {
     }
 
-    public FileInfo(String id, String name, long size, String type, LocalDateTime uploadDate, String url) {
+    public FileInfo(
+            String id, String name, long size, String type,
+            LocalDateTime uploadDate, String storageType, String url) {
         this.id = id;
         this.name = name;
         this.size = size;
         this.type = type;
         this.uploadDate = uploadDate;
+        this.storageType = storageType;
         this.url = url;
     }
 
@@ -75,6 +79,14 @@ public class FileInfo {
         this.name = name;
     }
 
+    public String getStorageType() {
+        return storageType;
+    }
+
+    public void setStorageType(String storageType) {
+        this.storageType = storageType;
+    }
+
     @Override
     public String toString() {
         return "FileInfo{" +
@@ -83,6 +95,7 @@ public class FileInfo {
                 ", size=" + size +
                 ", type='" + type + '\'' +
                 ", uploadDate=" + uploadDate +
+                ", storageType=" + storageType +
                 ", url='" + url + '\'' +
                 '}';
     }
