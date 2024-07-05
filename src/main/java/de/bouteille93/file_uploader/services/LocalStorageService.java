@@ -5,6 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,8 @@ import de.bouteille93.file_uploader.models.FileInfo;
 public class LocalStorageService implements StorageInterface {
     @Autowired
     private FileRegistrationServiceImpl fileRegistrationServiceImpl;
+
+    private static final Logger logger = LoggerFactory.getLogger(LocalStorageService.class);
 
     @Override
     public String upload(FileData file) {
@@ -56,8 +60,17 @@ public class LocalStorageService implements StorageInterface {
 
     @Override
     public FileData download(FileInfo fileInfo) {
-        // TODO Generate download link
+        FileData fileData = new FileData(fileInfo, null);
 
-        return null;
+        Path filePath = Paths.get(fileInfo.getUrl());
+        try {
+            byte[] fileContent = Files.readAllBytes(filePath);
+            fileData.setData(fileContent);
+            return fileData;
+        } catch (IOException e) {
+            e.printStackTrace();
+            logger.error("Erreur lors de la lecture du fichier : " + e.getMessage(), e);
+            throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
+        }
     }
 }

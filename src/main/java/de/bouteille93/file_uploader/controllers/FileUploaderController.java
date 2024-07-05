@@ -10,9 +10,6 @@ import de.bouteille93.file_uploader.models.FileInfo;
 import de.bouteille93.file_uploader.services.FileRegistrationServiceImpl;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +55,7 @@ public class FileUploaderController {
                         file.getSize(),
                         file.getContentType(),
                         LocalDateTime.now(),
+                        "",
                         ""),
                 file.getBytes());
 
@@ -92,25 +90,27 @@ public class FileUploaderController {
 
     @GetMapping("/download/{fileId:.+}")
     public ResponseEntity<?> downloadFile(@PathVariable String fileId) {
-
-        // TODO use download method from Storage service
-
         logger.info("Downloading file : " + fileId);
 
         FileInfo fileInfo = fileRegistrationServiceImpl.getFileInfoFromDatabase(fileId);
 
         logger.info("File found : " + fileInfo);
 
-        Path filePath = Paths.get(fileInfo.getUrl());
+        StorageInterface storage = storageServiceSelector.selectStorage(fileInfo.getStorageType());
+
+        logger.info("Getting file bytes");
+
+        FileData fileData = storage.download(fileInfo);
+
         try {
-            byte[] fileContent = Files.readAllBytes(filePath);
+            byte[] fileContent = fileData.getData();
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_OCTET_STREAM)
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileInfo.getName() + "\"")
                     .body(fileContent);
-        } catch (IOException e) {
-            logger.error("Erreur lors de la lecture du fichier : " + e.getMessage(), e);
-            return ResponseEntity.internalServerError().body("Erreur lors du téléchargement du fichier : " + fileId);
+        } catch (Exception e) {
+            logger.error("Erreur lors du téléchargement du fichier : " + fileId, e);
+            throw e;
         }
 
     }
