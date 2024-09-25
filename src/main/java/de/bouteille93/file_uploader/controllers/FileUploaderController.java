@@ -37,6 +37,11 @@ public class FileUploaderController {
         this.storageServiceSelector = storageServiceSelector;
     }
 
+    @GetMapping("/")
+    public ResponseEntity<String> defaultRoute() {
+        return ResponseEntity.ok("File upload application launched !");
+    }
+
     @PostMapping("/upload")
     public ResponseEntity<?> uploadFile(
             @RequestParam("file") MultipartFile file,
