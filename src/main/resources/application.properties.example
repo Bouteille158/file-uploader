@@ -15,11 +15,11 @@ spring.h2.console.enabled=true
 spring.h2.console.path=/h2-console
 
 # PostgreSQL database configuration
-spring.datasource.url=jdbc:postgresql://localhost:5432/nom_de_votre_base_de_donnees
-spring.datasource.driverClassName=org.postgresql.Driver
-spring.datasource.username=nom_utilisateur
-spring.datasource.password=mot_de_passe
-spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+#spring.datasource.url=jdbc:postgresql://localhost:5432/nom_de_votre_base_de_donnees
+#spring.datasource.driverClassName=org.postgresql.Driver
+#spring.datasource.username=nom_utilisateur
+#spring.datasource.password=mot_de_passe
+#spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
 
 # Spring boot debug log level
 logging.level.org.springframework.security=DEBUG
