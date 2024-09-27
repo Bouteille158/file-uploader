@@ -5,6 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import de.bouteille93.file_uploader.interfaces.StorageInterface;
 import de.bouteille93.file_uploader.interfaces.StorageServiceSelector;
+import de.bouteille93.file_uploader.models.DefaultResponse;
 import de.bouteille93.file_uploader.models.FileData;
 import de.bouteille93.file_uploader.models.FileInfo;
 import de.bouteille93.file_uploader.services.FileRegistrationServiceImpl;
@@ -43,7 +44,7 @@ public class FileUploaderController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<?> uploadFile(
+    public ResponseEntity<DefaultResponse> uploadFile(
             @RequestParam("file") MultipartFile file,
             @RequestParam("storageType") String storageType) throws IOException {
 
@@ -75,7 +76,9 @@ public class FileUploaderController {
 
         System.out.println(fileToUpload.getFileInfo().toString());
 
-        return ResponseEntity.ok("Fichier reçu : " + file.getOriginalFilename());
+        DefaultResponse response = new DefaultResponse("Fichier reçu : " + file.getOriginalFilename());
+
+        return ResponseEntity.ok(response);
     }
 
     @Autowired
