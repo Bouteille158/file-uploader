@@ -76,9 +76,19 @@ public class LocalStorageService implements StorageInterface {
 
     @Override
     public String remove(FileInfo fileInfo) {
-        // TODO Remove file from local storage
-        logger.warn("NO IMPLEMENTATION OF REMOVE METHOD");
 
-        return "NO IMPLEMENTATION OF REMOVE METHOD";
+        Path filePath = Paths.get(fileInfo.getUrl());
+
+        try {
+            Files.delete(filePath);
+            // TODO: Remove file from database
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("Erreur lors de la suppression du fichier : " + e.getMessage(), e);
+            throw new RuntimeException("Could not remove the file. Error: " + e.getMessage());
+        }
+
+        return "Removed file with id : " + fileInfo.getId();
     }
 }
