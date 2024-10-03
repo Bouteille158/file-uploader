@@ -7,4 +7,6 @@ public interface StorageInterface {
     public String upload(FileData file);
 
     public FileData download(FileInfo fileInfo);
+
+    public String remove(String fileId);
 }
