@@ -152,6 +152,10 @@ public class FileUploaderController {
 
         logger.info(response.getFileInfo().toString());
 
+        StorageInterface storage = storageServiceSelector.selectStorage(fileInfo.getStorageType());
+
+        storage.remove(fileId);
+
         return ResponseEntity.ok().body(response);
     }
 
