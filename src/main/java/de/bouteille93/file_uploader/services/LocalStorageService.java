@@ -81,8 +81,7 @@ public class LocalStorageService implements StorageInterface {
 
         try {
             Files.delete(filePath);
-            // TODO: Remove file from database
-
+            fileRegistrationServiceImpl.removeFileInfoFromDatabase(fileInfo.getId());
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("Erreur lors de la suppression du fichier : " + e.getMessage(), e);
