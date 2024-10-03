@@ -123,4 +123,36 @@ public class FileUploaderController {
 
     }
 
+    @GetMapping("/remove/{fileId:.+}")
+    public ResponseEntity<?> getMethodName(@PathVariable String fileId) {
+        class RemoveResponse extends DefaultResponse {
+
+            public RemoveResponse(String message) {
+                super(message);
+            }
+
+            private FileInfo fileInfo;
+
+            public void setFileInfo(FileInfo fileInfo) {
+                this.fileInfo = fileInfo;
+            }
+
+            public FileInfo getFileInfo() {
+                return fileInfo;
+            }
+
+        }
+        RemoveResponse response = new RemoveResponse("Fichier supprimé : " + fileId);
+
+        FileInfo fileInfo = fileRegistrationServiceImpl.getFileInfoFromDatabase(fileId);
+
+        logger.info("File to remove found : " + fileInfo);
+
+        response.setFileInfo(fileInfo);
+
+        logger.info(response.getFileInfo().toString());
+
+        return ResponseEntity.ok().body(response);
+    }
+
 }
