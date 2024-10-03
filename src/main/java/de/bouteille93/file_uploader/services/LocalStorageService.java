@@ -73,4 +73,11 @@ public class LocalStorageService implements StorageInterface {
             throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
         }
     }
+
+    @Override
+    public String remove(String fileId) {
+        // TODO Remove file from local storage
+        logger.warn("NO IMPLEMENTATION OF REMOVE METHOD");
+        return "NO IMPLEMENTATION OF REMOVE METHOD";
+    }
 }
