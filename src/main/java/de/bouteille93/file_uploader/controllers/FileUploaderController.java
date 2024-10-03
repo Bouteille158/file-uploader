@@ -154,7 +154,7 @@ public class FileUploaderController {
 
         StorageInterface storage = storageServiceSelector.selectStorage(fileInfo.getStorageType());
 
-        storage.remove(fileId);
+        response.setMessage(storage.remove(fileId));
 
         return ResponseEntity.ok().body(response);
     }
