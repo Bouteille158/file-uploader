@@ -8,5 +8,5 @@ public interface StorageInterface {
 
     public FileData download(FileInfo fileInfo);
 
-    public String remove(String fileId);
+    public String remove(FileInfo fileInfo);
 }

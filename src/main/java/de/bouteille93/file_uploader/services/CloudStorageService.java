@@ -32,7 +32,7 @@ public class CloudStorageService implements StorageInterface {
     }
 
     @Override
-    public String remove(String fileId) {
+    public String remove(FileInfo fileInfo) {
         // TODO Remove file from cloud storage
         logger.warn("NO IMPLEMENTATION OF REMOVE METHOD");
         return "NO IMPLEMENTATION OF REMOVE METHOD";

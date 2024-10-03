@@ -75,9 +75,10 @@ public class LocalStorageService implements StorageInterface {
     }
 
     @Override
-    public String remove(String fileId) {
+    public String remove(FileInfo fileInfo) {
         // TODO Remove file from local storage
         logger.warn("NO IMPLEMENTATION OF REMOVE METHOD");
+
         return "NO IMPLEMENTATION OF REMOVE METHOD";
     }
 }
