@@ -124,7 +124,7 @@ public class FileUploaderController {
     }
 
     @GetMapping("/remove/{fileId:.+}")
-    public ResponseEntity<?> getMethodName(@PathVariable String fileId) {
+    public ResponseEntity<?> removeFile(@PathVariable String fileId) {
         class RemoveResponse extends DefaultResponse {
 
             public RemoveResponse(String message) {
