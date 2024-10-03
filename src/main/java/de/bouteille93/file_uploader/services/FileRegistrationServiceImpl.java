@@ -53,4 +53,18 @@ public class FileRegistrationServiceImpl implements FileRegistrationService {
             throw e;
         }
     }
+
+    @Override
+    public String removeFileInfoFromDatabase(String id) {
+        try {
+            if (!fileInfoRepository.existsById(id)) {
+                throw new NoSuchElementException("Fichier non trouvé avec l'ID : " + id);
+            }
+            fileInfoRepository.deleteById(id);
+            return "Removed file with id : " + id;
+        } catch (Exception e) {
+            logger.error("Erreur lors de la suppression des informations du fichier : " + e.getMessage());
+            throw e;
+        }
+    }
 }
