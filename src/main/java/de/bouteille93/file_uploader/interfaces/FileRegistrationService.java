@@ -10,4 +10,6 @@ public interface FileRegistrationService {
     public List<FileInfo> getFileListFromDatabase();
 
     public FileInfo getFileInfoFromDatabase(String id);
+
+    public String removeFileInfoFromDatabase(String id);
 }
