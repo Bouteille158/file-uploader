@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-FileUploaderApplication<file-uploader>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "de.bouteille93.file_uploader.FileUploaderApplication",
+      "projectName": "file-uploader",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}
