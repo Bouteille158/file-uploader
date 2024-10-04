@@ -20,6 +20,7 @@ spring.h2.console.path=/h2-console
 #spring.datasource.username=nom_utilisateur
 #spring.datasource.password=mot_de_passe
 #spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+#spring.jpa.hibernate.ddl-auto=update
 
 # Spring boot debug log level
 logging.level.org.springframework.security=DEBUG
